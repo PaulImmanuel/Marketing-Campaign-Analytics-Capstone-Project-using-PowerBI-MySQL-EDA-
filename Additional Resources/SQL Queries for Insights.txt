@@ -1,0 +1,106 @@
+1. Overall Campaign Acceptance Rate
+
+SELECT 
+    ROUND(AVG(Response) * 100, 2) AS acceptance_rate_percentage
+FROM marketing_campaign;
+
+Insight:
+Overall campaign acceptance rate is low, indicating limited customer conversion.
+
+
+2. Campaign Performance by Country
+
+SELECT 
+    Country,
+    COUNT(*) AS total_customers,
+    SUM(Response) AS responders,
+    ROUND(AVG(Response) * 100, 2) AS response_rate
+FROM marketing_campaign
+GROUP BY Country
+ORDER BY response_rate DESC;
+
+
+3. Income vs Campaign Response
+
+SELECT 
+    Response,
+    ROUND(AVG(Income), 2) AS avg_income
+FROM marketing_campaign
+GROUP BY Response;
+
+
+4. Age Group vs Campaign Response
+
+SELECT 
+    CASE 
+        WHEN Age < 30 THEN 'Under 30'
+        WHEN Age BETWEEN 30 AND 45 THEN '30-45'
+        WHEN Age BETWEEN 46 AND 60 THEN '46-60'
+        ELSE '60+'
+    END AS age_group,
+    ROUND(AVG(Response) * 100, 2) AS response_rate
+FROM marketing_campaign
+GROUP BY age_group;
+
+
+5. Top Spending Customers (High Value Segment)
+
+SELECT 
+    ID,
+    Total_Spend
+FROM marketing_campaign
+ORDER BY Total_Spend DESC
+LIMIT 10;
+
+
+6. Channel Performance
+
+SELECT
+    SUM(NumWebPurchases) AS web_purchases,
+    SUM(NumStorePurchases) AS store_purchases,
+    SUM(NumCatalogPurchases) AS catalog_purchases
+FROM marketing_campaign;
+
+
+7.Website Visits vs Purchases (Conversion Gap)
+
+SELECT 
+    ID,
+    NumWebVisitsMonth,
+    NumWebPurchases
+FROM marketing_campaign
+WHERE NumWebVisitsMonth > 10 AND NumWebPurchases < 2;
+
+Insight:
+These users show high interest but low conversion.
+
+
+8. Product Category Revenue
+SELECT
+    SUM(MntWines) AS wines,
+    SUM(MntMeatProducts) AS meat,
+    SUM(MntFruits) AS fruits,
+    SUM(MntFishProducts) AS fish,
+    SUM(MntSweetProducts) AS sweets,
+    SUM(MntGoldProds) AS gold
+FROM marketing_campaign;
+
+
+9. Education Level vs Response
+
+SELECT
+    Education,
+    ROUND(AVG(Response) * 100, 2) AS response_rate
+FROM marketing_campaign
+GROUP BY Education
+ORDER BY response_rate DESC;
+
+
+10. Family Status Impact
+
+SELECT
+    (Kidhome + Teenhome) AS total_children,
+    ROUND(AVG(Response) * 100, 2) AS response_rate
+FROM marketing_campaign
+GROUP BY total_children
+ORDER BY total_children;

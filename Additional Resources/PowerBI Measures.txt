@@ -1,0 +1,27 @@
+PowerBI Measures
+
+New Measure
+
+1. Total Customers
+Total Customers = COUNT(marketing_cleaned[ID])
+
+2. cleaned Responders
+Total Responders = SUM(marketing_cleaned[Response])
+
+3. cleaned Response Rate
+Response Rate (%) = 
+DIVIDE([Total Responders], [Total Customers], 0) * 100
+
+4. Total Revenue
+Total Revenue = SUM(marketing_cleaned[Total_Spend])
+
+5. Avg Revenue per Customer
+Avg Revenue per Customer = DIVIDE([Total Revenue], [Total Customers], 0)
+
+6. Web Conversion Rate
+Web Conversion Rate (%) =
+DIVIDE(
+    SUM(marketing_cleaned[NumWebPurchases]),
+    SUM(marketing_cleaned[NumWebVisitsMonth]),
+    0
+) * 100
